@@ -1,0 +1,20 @@
+{
+  "name": "gdc-solidity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "compile": "node compile.js",
+    "deploy": "node deploy.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ganache-cli": "^6.9.1",
+    "mocha": "^7.1.1",
+    "solc": "^0.4.25",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.2.6"
+  }
+}
