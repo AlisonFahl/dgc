@@ -15,21 +15,7 @@ function App() {
           <Container>
               <Row>
                   <Col xs={{ span: 8, offset: 2 }} >
-                      <Chat comments={[
-                          { id: 0, alias: 'Zé', date: new Date(), text: "Hello World" },
-                          { id: 1, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 2, alias: 'Zé', date: new Date(), text: "Hello World" },
-                          { id: 3, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 4, alias: 'Zé', date: new Date(), text: "Hello World" },
-                          { id: 5, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 6, alias: 'Zé', date: new Date(), text: "Hello World" },
-                          { id: 7, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 8, alias: 'Zé', date: new Date(), text: "Hello World" },
-                          { id: 9, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 10, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 11, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 12, alias: 'Bob', date: new Date(), text: "Test World" },
-                          { id: 13, alias: 'Bob', date: new Date(), text: "Test World" }]} />
+                      <Chat/>
                   </Col>
               </Row>
           </Container>
