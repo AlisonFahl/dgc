@@ -2,6 +2,8 @@ import React from 'react';
 import './Form.css';
 import BSForm from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export default class Form extends React.Component {
     ALIAS_CHAR_LIMIT = 30;
@@ -14,6 +16,8 @@ export default class Form extends React.Component {
             alias: "",
             message: "",
         };
+
+        this.wrapper = React.createRef();
     }
 
     handleSubmit = (event) => {
@@ -35,6 +39,14 @@ export default class Form extends React.Component {
         return (limit - s.length);
     }
 
+    renderTooltip(props) {
+    return (
+        <Tooltip id="button-tooltip" {...props}>
+            Simple tooltip
+        </Tooltip>
+    );
+}
+
     render() {
         return (
             <BSForm onSubmit={this.handleSubmit}>
@@ -52,7 +64,13 @@ export default class Form extends React.Component {
                         {this.getCharsLeft(this.state.message, this.MESSAGE_CHAR_LIMIT).toString()} chars left
                     </BSForm.Text>
                 </BSForm.Group>
-                <Button variant="dark" type="submit">Submit</Button>
+                {this.props.canSubmit ?
+                    <Button variant="dark" type="submit">Submit</Button> :
+                    <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">No web3 provider found in your browser for this page</Tooltip>}>
+                        <span ref={this.wrapper} className="d-inline-block">
+                            <Button variant="outline-dark" type="submit" disabled style={{ pointerEvents: 'none' }}>Submit</Button>
+                        </span>
+                    </OverlayTrigger>}
             </BSForm>
         );
     }

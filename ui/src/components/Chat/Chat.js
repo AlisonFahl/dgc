@@ -11,7 +11,8 @@ class Chat extends React.Component {
         super();
 
         this.state = {
-            comments: []
+            comments: [],
+            canSubmit: false,
         };
 
         this.service = new ChatService();
@@ -24,6 +25,10 @@ class Chat extends React.Component {
     }
 
     componentDidMount() {
+        this.setState({
+            canSubmit: window.ethereum || window.web3
+        });
+
         this.service.getTotalMessages()
             .then((total) => {
                 total = parseInt(total);
@@ -66,7 +71,7 @@ class Chat extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <Form postComment={this.postComment}/>
+                        <Form postComment={this.postComment} canSubmit={this.state.canSubmit}/>
                     </Col>
                 </Row>
             </>
