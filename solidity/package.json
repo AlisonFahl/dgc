@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "compile": "node compile.js",
+    "compile": "node -e \"console.log(require('./compile.js').interface)\"",
     "deploy": "node deploy.js"
   },
   "author": "",

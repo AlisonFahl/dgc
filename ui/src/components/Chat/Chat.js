@@ -17,7 +17,13 @@ class Chat extends React.Component {
         this.service = new ChatService();
     }
 
-    componentWillMount() {
+    postComment = (comment) => {
+        this.service.postMessage(comment.message, comment.alias)
+            .then(() => console.log("sucesso!"))
+            .catch(() => console.error("erro!"));
+    }
+
+    componentDidMount() {
         this.service.getTotalMessages()
             .then((total) => {
                 total = parseInt(total);
@@ -60,7 +66,7 @@ class Chat extends React.Component {
                 </Row>
                 <Row>
                     <Col>
-                        <Form/>
+                        <Form postComment={this.postComment}/>
                     </Col>
                 </Row>
             </>

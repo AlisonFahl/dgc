@@ -3,11 +3,19 @@ import BaseService from './../BaseService/BaseService.js';
 
 export default class ChatService extends BaseService{
     postMessage(message, alias) {
-        return contract.methods
-            .post(message, alias)
-            .send({
-                from: this.getAccount(),
-            });
+        return new Promise((resolve, reject) => {
+            this.getAccount()
+                .then((account) => {
+                    contract.methods
+                        .post(message, alias)
+                        .send({
+                            from: account,
+                        })
+                        .then(resolve)
+                        .catch(reject);
+                })
+                .catch(reject);
+        });
     }
 
     getTotalMessages() {
