@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Comment from './../Comment/Comment';
 import Form from './../Form/Form';
 import ChatService from './../../services/ChatService/ChatService.js';
+import AppContext from './../../context/AppContext.js';
 
 class Chat extends React.Component {
     constructor() {
@@ -21,7 +22,9 @@ class Chat extends React.Component {
     postComment = (comment) => {
         this.service.postMessage(comment.message, comment.alias)
             .then(() => console.log("sucesso!"))
-            .catch(() => console.error("erro!"));
+            .catch(() => {
+                this.context.notification.show("Error", "Hello World");
+            });
     }
 
     componentDidMount() {
@@ -78,5 +81,7 @@ class Chat extends React.Component {
         );
     }
 }
+
+Chat.contextType = AppContext;
 
 export default Chat;

@@ -5,10 +5,11 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Chat from './../Chat/Chat';
+import { AppContextProvider } from './../../context/AppContext.js';
 
 function App() {
   return (
-      <>
+      <AppContextProvider>
           <Navbar bg="dark" variant="dark">
               <Navbar.Brand>Decentralized Global Chat</Navbar.Brand>
           </Navbar>
@@ -19,7 +20,7 @@ function App() {
                   </Col>
               </Row>
           </Container>
-      </>
+      </AppContextProvider>
   );
 }
 
