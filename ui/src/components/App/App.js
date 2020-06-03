@@ -9,18 +9,21 @@ import { AppContextProvider } from './../../context/AppContext.js';
 
 function App() {
   return (
-      <AppContextProvider>
+      <>
           <Navbar bg="dark" variant="dark">
               <Navbar.Brand>Decentralized Global Chat</Navbar.Brand>
           </Navbar>
-          <Container>
-              <Row>
-                  <Col xs={{ span: 8, offset: 2 }} >
-                      <Chat/>
-                  </Col>
-              </Row>
+          
+          <Container fluid>
+              <AppContextProvider>
+                  <Row>
+                      <Col>
+                          <Chat />
+                      </Col>
+                  </Row>
+              </AppContextProvider>
           </Container>
-      </AppContextProvider>
+      </>
   );
 }
 
