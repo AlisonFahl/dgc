@@ -1,7 +1,5 @@
 import React from 'react';
 import './Chat.css';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Comment from './../Comment/Comment';
 import Form from './../Form/Form';
 import ChatService from './../../services/ChatService/ChatService.js';
@@ -28,7 +26,10 @@ class Chat extends React.Component {
             , 5000);
 
         this.service.postMessage(comment.message, comment.alias)
-            .then(() => this.context.notification.success("Comment posted with success!", 3000))
+            .then(() => {
+                this.context.notification.success("Comment posted with success!", 3000);
+                this.fetchNewComments();
+            })
             .catch(() => {
                 this.context.notification.error("Error posting new comment", 3000);
             });
@@ -38,13 +39,18 @@ class Chat extends React.Component {
         this.service.getMessage(id)
             .then((msg) => {
                 this.setState((state, props) => {
+                    if (state.comments.some((x) => x.id === id))
+                        return {};
+
+                    let comments = [{
+                        id: id,
+                        alias: msg.senderAlias,
+                        text: msg.message,
+                        date: new Date(1000 * parseInt(msg.timestamp)),
+                        address: msg.sender,
+                    }, ...state.comments].sort((a, b) => b.id - a.id);
                     return {
-                        comments: [...state.comments, {
-                            id: id,
-                            alias: msg.senderAlias,
-                            text: msg.message,
-                            date: new Date(msg.timestamp),
-                        }]
+                        comments
                     };
                 });
             });
@@ -54,9 +60,10 @@ class Chat extends React.Component {
         this.service.getTotalMessages()
             .then((total) => {
                 total = parseInt(total);
-                const startAt = this.state.comments.length;
-                for (let i = startAt; i < total; i++) {
-                    this.loadComment(i);
+                for (let i = 0; i < total; i++) {
+                    if (!this.state.comments.some((x) => x.id === i)) {
+                        this.loadComment(i);
+                    }
                 }
             });
     }
@@ -80,26 +87,22 @@ class Chat extends React.Component {
     render() {
         return (
             <>
-                <Row>
-                    <Col>
-                        <CardColumns>
-                            <Card border="white" className="card">
+                <CardColumns>
+                    <Card border="white"  className="card">
+                        <Card.Body>
+                            <Form postComment={this.postComment} canSubmit={this.state.canSubmit} />
+                        </Card.Body>
+                    </Card>
+                    {
+                        this.state.comments.length > 0 && this.state.comments.map((x) =>
+                            <Card key={x.id} border="white" className="card">
                                 <Card.Body>
-                                    <Form postComment={this.postComment} canSubmit={this.state.canSubmit} />
+                                    <Comment {...x} />
                                 </Card.Body>
                             </Card>
-                            {
-                                this.state.comments.length > 0 && this.state.comments.map((x) =>
-                                    <Card key={x.id} border="white" className="card">
-                                        <Card.Body>
-                                            <Comment {...x} />
-                                        </Card.Body>
-                                    </Card>
-                                )
-                            }
-                        </CardColumns>
-                    </Col>
-                </Row>
+                        )
+                    }
+                </CardColumns>
             </>
         );
     }

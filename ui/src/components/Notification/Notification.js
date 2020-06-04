@@ -28,10 +28,8 @@ export default class Notification extends React.Component {
         };
 
         return (
-            <div style={{ position: 'relative' }}>
-                <div style={{ position: 'absolute', top: 0, right: 0 }}>
-                    {this.props.notifications.map(mapToToastComponent)}
-                </div>
+            <div style={{ position: 'fixed', top: 50, right: 0 }}>
+                {this.props.notifications.map(mapToToastComponent)}
             </div>
         );
     }
